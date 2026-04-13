@@ -1,4 +1,5 @@
 ## Estrutura inicial do código para controle financeiro ##
+## Dados DUMMY's ##
 receitas = [
     {'descricao':'Salário','valor':5000},
     {'descricao':'Freelance','valor':1500}
