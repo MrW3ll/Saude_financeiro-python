@@ -12,10 +12,43 @@ despesas = [
     {'descricao':'Cinema','valor':200,'categoria':'Lazer'}
 ]
 
-## Calcular receita total ## 
-def calcular_total_receitas(receitas):
-    total_receita = sum(item['valor'] for item in receitas)
-    return total_receita
+"""
+PRINCIPAIS OBJETIVOS:
+✔ eliminar redundância
+✔ corrigir lógica conceitual
+✔ deixar funções previsíveis
+✔ preparar para próxima análise
 
+"""
+
+
+
+## calcula de valores
+def calcular_total_receitas(valores): ##calcula a soma total de valores | Receitas
+    total_valores = sum(item['valor'] for item in valores)  
+    return total_valores
+
+def calcular_total_despesas(valores): ##calcula a soma total de valores | Despesas
+    total_valores = sum(item['valor'] for item in valores)  
+    return total_valores
+
+
+def saldo_final(receitas, despesas):  ##calcula o saldo final 
+    return calcular_total_receitas(receitas) - calcular_total_despesas(despesas) 
+
+
+def renda_comprometida(despesas, receitas): ## retorna quanto da renda (receitas) esta comprometida
+    total_despesas = calcular_total_despesas(despesas)
+    total_receitas = calcular_total_receitas(receitas)
+    
+    if total_receitas == 0:
+        return 0
+    
+    return (total_despesas / total_receitas) * 100
+
+
+## retornos
 print(f'Total de receitas:R${calcular_total_receitas(receitas):.2f}')
-
+print(f'Total de despesas:R${calcular_total_despesas(despesas):.2f}')
+print(f'Saldo final: R${saldo_final(receitas,despesas):.2f}')
+print(f'Sua renda esta comprometida em {renda_comprometida(despesas,receitas):.2f}%')
