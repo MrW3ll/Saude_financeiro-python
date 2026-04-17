@@ -1,15 +1,14 @@
 ## Estrutura inicial do código para controle financeiro ##
 ## Dados DUMMY's ##
 receitas = [
-    {'descricao':'Salário','valor':5000},
-    {'descricao':'Freelance','valor':1500}
+    {'descricao':'Salário','valor':5000}
 ]
 
 despesas = [
-    {'descricao':'Aluguel','valor':1200,'categoria':'Moradia'},
-    {'descricao':'Supermercado','valor':800,'categoria':'Alimentação'},
-    {'descricao':'Transporte','valor':300,'categoria':'Transporte'},
-    {'descricao':'Cinema','valor':200,'categoria':'Lazer'}
+    {'descricao':'Aluguel','valor':900,'categoria':'moradia'},
+    {'descricao':'cinema','valor':150,'categoria':'lazer'},
+    {'descricao':'mercado','valor':800,'categoria':'alimentacao'},
+    {'descricao':'gasolina','valor':100,'categoria':'transporte'}
 ]
 
 """
@@ -19,36 +18,29 @@ PRINCIPAIS OBJETIVOS:
 ✔ deixar funções previsíveis
 ✔ preparar para próxima análise
 
+Issues:
+2 - Total Receita
+3 - Total despesas
+4 - Saldo final
+5 -  Ocupacao de renda
+
 """
 
 
-
-## calcula de valores
-def calcular_total_receitas(valores): ##calcula a soma total de valores | Receitas
-    total_valores = sum(item['valor'] for item in valores)  
-    return total_valores
-
-def calcular_total_despesas(valores): ##calcula a soma total de valores | Despesas
-    total_valores = sum(item['valor'] for item in valores)  
-    return total_valores
+def calcular_valores(valores):
+    return sum(item['valor'] for item in valores)
 
 
-def saldo_final(receitas, despesas):  ##calcula o saldo final 
-    return calcular_total_receitas(receitas) - calcular_total_despesas(despesas) 
+def saldo_final():
+    receita = calcular_valores(receitas)
+    despesa = calcular_valores(despesas)
+    return receita - despesa
 
-
-def renda_comprometida(despesas, receitas): ## retorna quanto da renda (receitas) esta comprometida
-    total_despesas = calcular_total_despesas(despesas)
-    total_receitas = calcular_total_receitas(receitas)
-    
-    if total_receitas == 0:
+def ocupacao_receita():
+    if calcular_valores(receitas) > 0:
+        return (calcular_valores(despesas) / calcular_valores(receitas)) * 100
+    else:
         return 0
     
-    return (total_despesas / total_receitas) * 100
 
-
-## retornos
-print(f'Total de receitas:R${calcular_total_receitas(receitas):.2f}')
-print(f'Total de despesas:R${calcular_total_despesas(despesas):.2f}')
-print(f'Saldo final: R${saldo_final(receitas,despesas):.2f}')
-print(f'Sua renda esta comprometida em {renda_comprometida(despesas,receitas):.2f}%')
+print(calcular_valores(despesas))
