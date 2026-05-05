@@ -1,46 +1,67 @@
-## Estrutura inicial do código para controle financeiro ##
-## Dados DUMMY's ##
-receitas = [
-    {'descricao':'Salário','valor':5000}
-]
-
-despesas = [
-    {'descricao':'Aluguel','valor':900,'categoria':'moradia'},
-    {'descricao':'cinema','valor':150,'categoria':'lazer'},
-    {'descricao':'mercado','valor':800,'categoria':'alimentacao'},
-    {'descricao':'gasolina','valor':100,'categoria':'transporte'}
-]
-
-"""
-PRINCIPAIS OBJETIVOS:
-✔ eliminar redundância
-✔ corrigir lógica conceitual
-✔ deixar funções previsíveis
-✔ preparar para próxima análise
-
-Issues:
-2 - Total Receita
-3 - Total despesas
-4 - Saldo final
-5 -  Ocupacao de renda
-
-"""
+import json
+import pandas as pd
 
 
-def calcular_valores(valores):
-    return sum(item['valor'] for item in valores)
+def menu():
+    pass
+
+def salvar_transacoes(transacoes):
+    with open('dados_financeiros.json','w') as f:
+        json.dump(transacoes,f)
 
 
-def saldo_final():
-    receita = calcular_valores(receitas)
-    despesa = calcular_valores(despesas)
-    return receita - despesa
+def carregar_transacoes():
+    try:
+        with open('dados_financeiros.json','r') as f:
+            dados = json.load(f)
+            return dados
+    except FileNotFoundError:
+        return []
 
-def ocupacao_receita():
-    if calcular_valores(receitas) > 0:
-        return (calcular_valores(despesas) / calcular_valores(receitas)) * 100
-    else:
-        return 0
+
+def adicionar_transacao():
+    transacoes = carregar_transacoes()
+
+    while True:
+        tipo = input('Qual tipo da transação? (receita/despesa)\n')
+        data = input('Qual a data da transação? (dd/mm/aaaa)\n')
+        descricao = input('Qual a descrição da transação?\n')
+        valor = float(input('Qual o valor da transação?\n'))
+        categoria = input('Qual a categoria da transação?\n')
+
+        transacoes.append({
+            'tipo':tipo,
+            'data':data,
+            'descricao':descricao,
+            'valor':valor,
+            'categoria':categoria,
+        })
+
+        continuar = input('Deseja adicionar outra transação? (s/n)\n')
+
+        if continuar.lower() != 's':
+            break
+    
+    salvar_transacoes(transacoes)
+    print('Transações salvas com sucesso!')
+
+
+def gerar_relatorio():
+    dados = carregar_transacoes()
+
+    if not dados:
+        print('Nenhuma transação encontrada.')
+        return    
+
+
+    dados = pd.DataFrame(dados)
+    dados['valor'] = dados['valor'].map(lambda x: f'R${x:.2f}')
+    dados['tipo'] = dados['tipo'].str.capitalize()
+    dados['categoria'] = dados['categoria'].str.capitalize()
+    dados.columns = ['Tipo','Data', 'Descrição', 'Valor', 'Categoria']
+    return dados
     
 
-print(calcular_valores(despesas))
+    
+
+
