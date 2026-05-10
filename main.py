@@ -3,7 +3,28 @@ import pandas as pd
 
 
 def menu():
-    pass
+    print(f'1 - Gerar extrato de movimentações \n'
+        '2 - Adicionar movimentações \n'
+        '3 - Editar movimentações \n' ## Função ainda não criada
+        '4 - Apagar movimentações \n' ## Função ainda não criada
+        
+        )
+    
+    opcao = input('Informe a opção desejada: \n')
+
+    
+
+    match opcao:
+        case 1:
+            carregar_transacoes()
+        case 2:
+            adicionar_transacao()
+
+
+        case _:
+            print(f'Opção informada invalida! Favor verificar')    
+
+
 
 def salvar_transacoes(transacoes):
     with open('dados_financeiros.json','w') as f:
@@ -59,9 +80,16 @@ def gerar_relatorio():
     dados['tipo'] = dados['tipo'].str.capitalize()
     dados['categoria'] = dados['categoria'].str.capitalize()
     dados.columns = ['Tipo','Data', 'Descrição', 'Valor', 'Categoria']
-    return dados
+    dados = dados.sort_values(by='Data',ascending=False)
+    print(dados)
     
+def apagar_movimentacao():
+    pass
 
+def editar_movimentacao():
+    pass
+
+gerar_relatorio()
     
 
 
