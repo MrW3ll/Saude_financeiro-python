@@ -12,15 +12,15 @@ def menu():
     
     opcao = input('Informe a opção desejada: \n')
 
-    
-
     match opcao:
         case 1:
             carregar_transacoes()
         case 2:
             adicionar_transacao()
-
-
+        case 3:
+            editar_movimentacao()
+        case 4:
+            apagar_movimentacao()    
         case _:
             print(f'Opção informada invalida! Favor verificar')    
 
@@ -74,7 +74,6 @@ def gerar_relatorio():
         print('Nenhuma transação encontrada.')
         return    
 
-
     dados = pd.DataFrame(dados)
     dados['valor'] = dados['valor'].map(lambda x: f'R${x:.2f}')
     dados['tipo'] = dados['tipo'].str.capitalize()
@@ -84,10 +83,31 @@ def gerar_relatorio():
     print(dados)
     
 def apagar_movimentacao():
+    
+    transacoes = carregar_transacoes()
+    visualiza_movimentacao = gerar_relatorio()
+
+
+    while True:
+        
+        break
+
     pass
 
 def editar_movimentacao():
+    
+    transacoes = carregar_transacoes()
+    visualiza_movimentacao = gerar_relatorio()
+
+
+    while True:
+        
+        break
+
     pass
+
+
+
 
 gerar_relatorio()
     
